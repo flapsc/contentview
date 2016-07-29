@@ -32,7 +32,6 @@ package com.viewer.view.scene.screens
 		{
 			super.initialize();
 			
-			layout = new AnchorLayout();
 			_progressBar = new ProgressBar();
 			_progressBar.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
 			_progressBar.direction = Direction.HORIZONTAL;

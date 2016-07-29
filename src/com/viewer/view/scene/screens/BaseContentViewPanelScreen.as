@@ -2,6 +2,7 @@ package com.viewer.view.scene.screens
 {
 	import com.viewer.IContext;
 	import feathers.controls.PanelScreen;
+	import feathers.layout.AnchorLayout;
 	
 	/**
 	 * ...
@@ -20,7 +21,7 @@ package com.viewer.view.scene.screens
 		override protected function initialize():void 
 		{
 			super.initialize();
-			
+			layout = new AnchorLayout();
 			if (_context.dataConfigVO.screenTitle != null)
 			{
 				this.title = _context.dataConfigVO.screenTitle;

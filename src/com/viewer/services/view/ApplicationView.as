@@ -122,8 +122,9 @@ package com.viewer.services.view
 			Starling.multitouchEnabled = true;
 			_starling = new Starling(FeathersDrivers, _stage, _stage3DProxy.viewPort, _stage3DProxy.stage3D, Context3DRenderMode.AUTO, Context3DProfile.BASELINE);
 			_starling.antiAliasing = 8;
-			_starling.supportHighResolutions = true;
-			_starling.skipUnchangedFrames = true;
+			//_starling.supportHighResolutions = true;
+			//_starling.skipUnchangedFrames = true;
+			//_starling.setRequiresRedraw();
 			_scaler = new ScreenDensityScaleFactorManager(_starling);
 			
 			
@@ -222,14 +223,14 @@ package com.viewer.services.view
 			_stage.addChild(_away3dView);
 			
 			
-			if (Capabilities.isDebugger)
-			{
+			//if (Capabilities.isDebugger)
+			//{
 				
 				_awayStats = new AwayStats( _away3dView);
 				_awayStats.x = _stage.fullScreenWidth - _awayStats.width;
 				_awayStats.y = _stage.fullScreenHeight - _awayStats.height;
 				_stage.addChild( _awayStats );
-			}
+			//}
 			
 		}
 	}

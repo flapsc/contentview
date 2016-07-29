@@ -17,7 +17,6 @@
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
     <class path="src" />
-    <class path="C:\Users\Andre\Downloads\feathers-ui-3.0.3\source" />
   </classpaths>
   <!-- Build options -->
   <build>
@@ -57,6 +56,7 @@
     <element path="libs\away3d-core-fp11_4_1_6.swc" />
     <element path="libs\starling.swc" />
     <element path="libs\MetalWorksMobileTheme.swc" />
+    <element path="libs\feathers.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>

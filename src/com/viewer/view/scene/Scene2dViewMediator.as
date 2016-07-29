@@ -1,6 +1,7 @@
 package com.viewer.view.scene 
 {
 	import com.viewer.IContext;
+	import com.viewer.view.scene.screens.MainMenuScreen;
 	import com.viewer.view.scene.screens.ProgressBarScreen;
 	import com.viewer.view.scene.screens.ScreenEvent;
 	import com.viewer.view.scene.screens.ScreenId;
@@ -35,6 +36,8 @@ package com.viewer.view.scene
 		//
 		private var _menuMaximized:Boolean;
 		
+		private var _localShowScreenEvent:ScreenEvent = new ScreenEvent(ScreenEvent.SHOW_SCREEN, "");
+		
 		/**
 		 * Constructor.
 		 */
@@ -48,7 +51,20 @@ package com.viewer.view.scene
 			_feathersRootDisplay = _context.appView.view2D.content as LayoutGroup;
 			registerScreens();
 			drawUI();
+			addUIEventListeners();
 			addContextEventListeners();
+		}
+		
+		private function addUIEventListeners():void 
+		{
+			_menuBtn.addEventListener(Event.TRIGGERED, menuBtn_triggeredHandler);
+		}
+		
+		private function menuBtn_triggeredHandler(e:Event):void 
+		{
+			_localShowScreenEvent.screenTitle = "Main menu";
+			_localShowScreenEvent.screenId = ScreenId.MAIN_MENU_SCREEN;
+			context_SHOW_SCREEN_Handler( _localShowScreenEvent )
 		}
 		
 		private function addContextEventListeners():void 
@@ -88,24 +104,13 @@ package com.viewer.view.scene
 		{
 			if ( toNavigator )
 			{
-				
-				//_feathersRootDisplay.removeChild(_navigator);
-				
-				//_feathersRootDisplay.addChild( _menuBtn );
-				//_feathersRootDisplay.addChild( _menuBtnLabel );
 				_context.appView.needRenderAway3d = false;
-				
-				_context.appView.view2D.content = _navigator;
+				_context.appView.view2D.content = _navigator; 
 			}
 			else
 			{
 				_context.appView.view2D.content = _feathersRootDisplay;
 				_context.appView.needRenderAway3d = true;
-				
-				//setTimeout(function():void{
-				//_feathersRootDisplay.removeChild( _menuBtn );
-				//_feathersRootDisplay.removeChild( _menuBtnLabel );
-				//_feathersRootDisplay.addChild(_navigator); }, 2000);
 			}
 		}
 		
@@ -135,8 +140,11 @@ package com.viewer.view.scene
 			_navigator = new StackScreenNavigator();
 			
 			var progressBarItem:StackScreenNavigatorItem = new StackScreenNavigatorItem(ProgressBarScreen, null, null, {context:_context});
-			progressBarItem.addPopEvent(Event.COMPLETE);
 			_navigator.addScreen(ScreenId.PROGRESS_BAR_SCREEN, progressBarItem);
+			
+			var mainMenuItem:StackScreenNavigatorItem = new StackScreenNavigatorItem(MainMenuScreen, null, null, {context:_context});
+			_navigator.addScreen(ScreenId.MAIN_MENU_SCREEN, mainMenuItem);			
+			
 		}
 		
 		private function loadDataConfigErr():void

@@ -32,7 +32,10 @@ package com.viewer.view.scene.screens
 		}
 		
 		public function get screenId():String{ return _screenId; }
+		public function set screenId(val:String ):void{ _screenId = val; }
+		
 		public function get screenTitle():String{return _screenTitle; }
+		public function set screenTitle( val:String ):void{ _screenTitle = val; }
 	}
 	
 }
