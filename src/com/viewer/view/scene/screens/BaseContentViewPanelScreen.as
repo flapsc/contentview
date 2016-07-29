@@ -1,0 +1,34 @@
+package com.viewer.view.scene.screens 
+{
+	import com.viewer.IContext;
+	import feathers.controls.PanelScreen;
+	
+	/**
+	 * ...
+	 * @author Mihaylenko A.L.
+	 */
+	public class BaseContentViewPanelScreen extends PanelScreen 
+	{
+		internal var _context:IContext;
+		
+		public function BaseContentViewPanelScreen() 
+		{
+			super();
+			
+		}
+		
+		override protected function initialize():void 
+		{
+			super.initialize();
+			
+			if (_context.dataConfigVO.screenTitle != null)
+			{
+				this.title = _context.dataConfigVO.screenTitle;
+				_context.dataConfigVO.screenTitle = null;
+			}
+		}
+		
+		public final function set context( value:IContext ):void{ _context = value; }
+	}
+
+}

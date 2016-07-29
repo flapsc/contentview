@@ -24,6 +24,7 @@ package com.viewer.model.vo
 		function set model3DLoaded( val:Boolean ):void;
 		function get model3DLoaded():Boolean;
 		
+		function set screenTitle( value:String ):void;
+		function get screenTitle():String;
 	}
-	
 }

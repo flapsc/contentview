@@ -48,8 +48,8 @@ package com.viewer
 			_scene2dViewMediator = scene2dViewMediator;
 			_scene3dViewMediator = scene3dViewMediator;
 			
-			_scene2dViewMediator.context =
-			_scene3dViewMediator.context = this;			
+			_scene3dViewMediator.context =
+			_scene2dViewMediator.context = this;			
 			
 			_appView = new ApplicationView();
 			_appView.addEventListener(ApplicationViewEvent.APP_VIEW_READY, appView_READY_Handler);

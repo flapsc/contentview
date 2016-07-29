@@ -108,7 +108,7 @@ package com.viewer.services.view
 			_stage3DProxy = _stage3DManager.getFreeStage3DProxy();
 			_stage3DProxy.addEventListener(Stage3DEvent.CONTEXT3D_CREATED, stage3DProxy_CONTEXT3D_CREATED_Handler);
 			_stage3DProxy.antiAlias = 8;
-			_stage3DProxy.color = 0xC0C0C0;
+			_stage3DProxy.color = 0x000000;
 		}		
 		
 		private function stage3DProxy_CONTEXT3D_CREATED_Handler(e:Stage3DEvent):void 

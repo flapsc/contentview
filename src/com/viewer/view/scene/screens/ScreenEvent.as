@@ -13,16 +13,17 @@ package com.viewer.view.scene.screens
 		static public const HIDE_ALL_SCREEN:String = "com.viewer.view.scene.screens.HIDE_ALL_SCREEN"
 		
 		private var _screenId:String;
-		public function ScreenEvent(type:String, screenId:String, bubbles:Boolean=false, cancelable:Boolean=false) 
+		private var _screenTitle:String;
+		public function ScreenEvent(type:String, screenId:String, screenTitle:String = null, bubbles:Boolean = false, cancelable:Boolean = false) 
 		{ 
 			super(type, bubbles, cancelable);
 			_screenId = screenId;
-			
+			_screenTitle = screenTitle;
 		} 
 		
 		public override function clone():Event 
 		{ 
-			return new ScreenEvent(type, _screenId, bubbles, cancelable);
+			return new ScreenEvent(type, _screenId, _screenTitle, bubbles, cancelable);
 		} 
 		
 		public override function toString():String 
@@ -31,6 +32,7 @@ package com.viewer.view.scene.screens
 		}
 		
 		public function get screenId():String{ return _screenId; }
+		public function get screenTitle():String{return _screenTitle; }
 	}
 	
 }

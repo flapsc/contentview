@@ -1,27 +1,22 @@
 package com.viewer.view.scene
 {
+	import away3d.containers.ObjectContainer3D;
 	import away3d.containers.View3D;
 	import away3d.controllers.HoverController;
 	import away3d.entities.Mesh;
 	import away3d.events.AssetEvent;
+	import away3d.events.LoaderEvent;
 	import away3d.library.AssetLibrary;
 	import away3d.library.assets.AssetType;
+	import away3d.loaders.Loader3D;
 	import away3d.loaders.parsers.OBJParser;
-	import away3d.materials.MaterialBase;
 	import away3d.materials.TextureMaterial;
-	import away3d.textures.Texture2DBase;
+	import com.viewer.view.scene.screens.ScreenEvent;
+	import com.viewer.view.scene.screens.ScreenId;
 	import flash.display.Stage;
-	import flash.display3D.textures.Texture;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
-	import flash.events.ProgressEvent;
-	import flash.filesystem.File;
-	import flash.filesystem.FileMode;
-	import flash.filesystem.FileStream;
-	import flash.net.URLLoader;
-	import flash.net.URLLoaderDataFormat;
 	import flash.net.URLRequest;
-	import flash.utils.ByteArray;
 	
 	/**
 	 * ...
@@ -29,8 +24,11 @@ package com.viewer.view.scene
 	 */
 	public final class Scene3dViewMediator extends BaseViewMediator
 	{
-		private var _view:View3D;
+		//App Stage(flash.display.Stage) 
 		private var _stage:Stage;
+		
+		//view's and controllers( away3d )
+		private var _view:View3D;
 		private var _cameraController:HoverController;
 		
 		//navigation variables
@@ -59,57 +57,82 @@ package com.viewer.view.scene
 			loadApp3dModel();
 		}
 		
-		private var _loader:URLLoader;
+		private var _loader3D:Loader3D
 		private function loadApp3dModel():void
 		{
+			_context.dispatchEvent( new ScreenEvent(ScreenEvent.SHOW_SCREEN, ScreenId.PROGRESS_BAR_SCREEN, "Loading 3d model, please wait...") );
 			/**
 			 * TODO
 			 * need create cash content bytes service,
 			 * and move this block.
 			 */
 			const modelUrl:String = _context.dataConfigVO.model3DVO.url;
-			AssetLibrary.addEventListener(AssetEvent.ASSET_COMPLETE, onAssetComplete);
-			AssetLibrary.addEventListener(AssetEvent.MATERIAL_COMPLETE, onAssetComplete);
-			AssetLibrary.load(new URLRequest(_context.dataConfigVO.model3DVO.url), null, null, new OBJParser());
 			
+			_loader3D = new Loader3D();
+			//_loader3D.addEventListener(AssetEvent.ASSET_COMPLETE, onAssetComplete);
+			_loader3D.addEventListener(LoaderEvent.RESOURCE_COMPLETE, onLoaderResourceComplete);
+			_loader3D.load(new URLRequest(_context.dataConfigVO.model3DVO.url), null, null, new OBJParser());
 		}
 		
-		private function loader_progressHandler(e:ProgressEvent):void 
+		private function onLoaderResourceComplete(e:LoaderEvent):void 
 		{
-			trace(e.bytesLoaded / e.bytesTotal);
-		}
-		
-		private function loader_ProgressHandler(e:ProgressEvent):void 
-		{
-			//todo
-		}
-		
-		private function parse3dModelByes( data:* ):void
-		{
-			AssetLibrary.addEventListener(AssetEvent.ASSET_COMPLETE, onAssetComplete);
-			AssetLibrary.loadData( data );
-		}
-		
-		
-		private function getContentFileName( url:String ):String
-		{
-			var arr:Array = url.split("/");
-			var fileName:String = arr[arr.length - 1];
-			return fileName;
-			//return url.split
-		}
-		
-		private function onAssetComplete(event:AssetEvent):void 
-		{
-			if (event.asset.assetType == AssetType.MESH) 
+			trace("onLoaderResourceComplete");
+			
+			//var childrenLn:uint = _loader3D.numChildren;
+			var child:ObjectContainer3D;
+			//for ( var i:uint = 0; i < childrenLn; i++ )
+			while(_loader3D.numChildren)
 			{
-				_view.scene.addChild( event.asset as Mesh)
+				
+				child = _loader3D.getChildAt(0);
+				if ( child is Mesh )
+				{
+					((child as Mesh).material as TextureMaterial).alpha = .5;
+					
+					
+				}
+				_view.scene.addChild( child );
 			}
-			else if (event.asset.assetType == AssetType.MATERIAL && event.asset is TextureMaterial)
+			_context.dispatchEvent( new ScreenEvent(ScreenEvent.HIDE_SCREEN, ScreenId.PROGRESS_BAR_SCREEN) );
+		}
+		
+		/**
+		 * Asset load complete event handler, correctly in 3ds parser.
+		 * @param	event - AssetEvent instance.
+		 * TODO need fix OBJParser
+		 */
+		//private function onAssetComplete(event:AssetEvent):void 
+		//{
+			//trace(event.type, event.asset.assetType);
+			//
+			//if (event.asset.assetType == AssetType.MESH) 
+			//{
+				////var mesh:Mesh = event.asset as Mesh;
+				////_view.scene.addChild( mesh )
+			//}
+			//else if (event.asset.assetType == AssetType.MATERIAL)//TODO not work in loader3d for OBJParser(.obj data format), set alpha to 50% for texture material when resource complete.
+			//{
+				//var asset:* = event.asset;
+				//trace(asset);
+			//}
+		//}
+		
+		[Inline]
+		private static function updateMaterial( mesh:Mesh ):void
+		{
+			mesh.material.alphaPremultiplied = true;
+			var material:TextureMaterial = mesh.material && mesh.material is TextureMaterial?mesh.material as TextureMaterial:null;
+			if (material)
 			{
-				var material:TextureMaterial = event.asset as TextureMaterial;
+				
 				material.alpha = .5;
 			}
+			else
+			{
+				//mesh.material.alphaPremultiplied
+				trace( mesh );
+			}
+			
 		}
 		
 		private function setupScene():void

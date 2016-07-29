@@ -92,7 +92,10 @@ package com.viewer.model.vo
 		public function get needRenderAway3d():Boolean{ return _needRenderAway3d; }
 		public function set needRenderAway3d( value:Boolean ):void{ _needRenderAway3d = value; }
 		
-		
+				
+		private var _screenTitle:String;
+		public function set screenTitle( value:String ):void{ _screenTitle = value; }
+		public function get screenTitle():String{ return _screenTitle; }
 		
 	}
 }
