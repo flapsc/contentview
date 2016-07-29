@@ -5,6 +5,7 @@ package com.viewer.view.scene
 	import com.viewer.view.scene.screens.ProgressBarScreen;
 	import com.viewer.view.scene.screens.ScreenEvent;
 	import com.viewer.view.scene.screens.ScreenId;
+	import com.viewer.view.scene.screens.VideoPlayerScreen;
 	import feathers.controls.Button;
 	import feathers.controls.LayoutGroup;
 	import feathers.controls.StackScreenNavigator;
@@ -31,7 +32,6 @@ package com.viewer.view.scene
 		
 		//The menu button
 		private var _menuBtn:Button;
-		private var _menuBtnLabel:TextFieldViewPort;
 		
 		//
 		private var _menuMaximized:Boolean;
@@ -116,18 +116,11 @@ package com.viewer.view.scene
 		
 		private function drawUI():void 
 		{
-			_menuBtnLabel= new TextFieldViewPort();
-			_menuBtnLabel.text = "Main menu";
-			_feathersRootDisplay.addChild( _menuBtnLabel );
-			
 			_menuBtn = new Button();
-			_menuBtn.width = 60;
+			_menuBtn.label = "Main Menu";
 			_menuBtn.addEventListener(Event.TRIGGERED, menuBtn_touch_Handler)
 			
 			_feathersRootDisplay.addChild( _menuBtn );
-			
-			
-			
 		}
 		
 		private function menuBtn_touch_Handler(e:Event):void 
@@ -139,11 +132,19 @@ package com.viewer.view.scene
 		{
 			_navigator = new StackScreenNavigator();
 			
+			//Progress bar screen
 			var progressBarItem:StackScreenNavigatorItem = new StackScreenNavigatorItem(ProgressBarScreen, null, null, {context:_context});
 			_navigator.addScreen(ScreenId.PROGRESS_BAR_SCREEN, progressBarItem);
 			
+			// Main Menu screen
 			var mainMenuItem:StackScreenNavigatorItem = new StackScreenNavigatorItem(MainMenuScreen, null, null, {context:_context});
-			_navigator.addScreen(ScreenId.MAIN_MENU_SCREEN, mainMenuItem);			
+			_navigator.addScreen(ScreenId.MAIN_MENU_SCREEN, mainMenuItem);
+			
+			// Video player screen
+			var videoPlayerItem:StackScreenNavigatorItem = new StackScreenNavigatorItem(VideoPlayerScreen, null, null, {context:_context});
+			videoPlayerItem.addPopEvent( Event.COMPLETE );
+			_navigator.addScreen(ScreenId.VIDEO_PLAYER_SCREEN, videoPlayerItem);					
+			
 			
 		}
 		

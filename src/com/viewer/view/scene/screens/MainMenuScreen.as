@@ -77,6 +77,13 @@ package com.viewer.view.scene.screens
 		
 		private function button_triggeredHandler(event:Event):void 
 		{
+			const button:Button = Button(event.currentTarget);
+			switch( button.label )
+			{
+				case "Visualisation":
+					_context.dispatchEvent( new ScreenEvent( ScreenEvent.SHOW_SCREEN, ScreenId.VIDEO_PLAYER_SCREEN, button.label ) );
+					break;
+			}
 			trace(event);
 		}
 		

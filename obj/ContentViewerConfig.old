@@ -39,7 +39,7 @@
       <path-element>C:\work\crysberry\contentview\libs\away3d-core-fp11_4_1_6.swc</path-element>
       <path-element>C:\work\crysberry\contentview\libs\starling.swc</path-element>
       <path-element>C:\work\crysberry\contentview\libs\MetalWorksMobileTheme.swc</path-element>
-      <path-element>C:\work\crysberry\contentview\libs\feathers.swc</path-element>
+      <path-element>C:\work\crysberry\contentview\libs\feathers_3_0_3.swc</path-element>
     </library-path>
   </compiler>
   <file-specs>
