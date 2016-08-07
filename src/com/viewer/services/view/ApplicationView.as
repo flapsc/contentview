@@ -20,6 +20,8 @@ package com.viewer.services.view
 	import flash.events.EventDispatcher;
 	import flash.geom.Rectangle;
 	import flash.system.Capabilities;
+	import flash.ui.Multitouch;
+	import flash.ui.MultitouchInputMode;
 	import flash.utils.setTimeout;
 	import starling.core.Starling;
 	/**
@@ -201,6 +203,7 @@ package com.viewer.services.view
 				_starling.removeEventListener("rootCreated", starling_rootCreatedHandler);
 			}
 			_view2D = _starling.root as FeathersDrivers;
+			Multitouch.inputMode = MultitouchInputMode.GESTURE;
 			stage_activateHandler();
 			_stage.addEventListener(Event.DEACTIVATE, stage_deactivateHandler, false, 0, true);
 			_stage.addEventListener(Event.RESIZE, stage_ResizeHandler);
