@@ -18,6 +18,7 @@ package com.viewer.services.view
 	import flash.display3D.Context3DRenderMode;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
+	import flash.geom.Rectangle;
 	import flash.system.Capabilities;
 	import flash.utils.setTimeout;
 	import starling.core.Starling;
@@ -124,6 +125,7 @@ package com.viewer.services.view
 			_starling.antiAliasing = 8;
 			_starling.supportHighResolutions = true;
 			_starling.skipUnchangedFrames = true;
+			//_starling.simulateMultitouch = true;
 			//_starling.setRequiresRedraw();
 			_scaler = new ScreenDensityScaleFactorManager(_starling);
 			
@@ -149,7 +151,7 @@ package com.viewer.services.view
 				_awayStats.x = _stage.fullScreenWidth - _awayStats.width;
 				_awayStats.y = _stage.fullScreenHeight - _awayStats.height;
 			}
-			
+			_starling.viewPort = new Rectangle(0, 0, _stage3DProxy.width, _stage3DProxy.height);
 		}
 		
 		private function stage_EnterFrameHandler(e:Event):void 

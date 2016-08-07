@@ -10,12 +10,17 @@ package com.viewer.view.scene
 	import away3d.library.assets.AssetType;
 	import away3d.loaders.Loader3D;
 	import away3d.loaders.parsers.OBJParser;
+	import away3d.materials.ColorMaterial;
+	import away3d.materials.MaterialBase;
 	import away3d.materials.TextureMaterial;
 	import com.viewer.view.scene.screens.ScreenEvent;
 	import com.viewer.view.scene.screens.ScreenId;
 	import flash.display.Stage;
 	import flash.events.Event;
+	import flash.events.GestureEvent;
 	import flash.events.MouseEvent;
+	import flash.events.TransformGestureEvent;
+	import flash.geom.Vector3D;
 	import flash.net.URLRequest;
 	
 	/**
@@ -37,7 +42,8 @@ package com.viewer.view.scene
 		private var _lastTiltAngle:Number;
 		private var _lastMouseX:Number;
 		private var _lastMouseY:Number;
-		
+		private var _maxZoom:Number;
+		private var _minZoom:Number;
 		/**
 		 * Constructor.
 		 */
@@ -79,7 +85,9 @@ package com.viewer.view.scene
 			trace("onLoaderResourceComplete");
 			
 			//var childrenLn:uint = _loader3D.numChildren;
+			var container:ObjectContainer3D = new ObjectContainer3D();
 			var child:ObjectContainer3D;
+			var material:MaterialBase;
 			//for ( var i:uint = 0; i < childrenLn; i++ )
 			while(_loader3D.numChildren)
 			{
@@ -87,54 +95,45 @@ package com.viewer.view.scene
 				child = _loader3D.getChildAt(0);
 				if ( child is Mesh )
 				{
-					((child as Mesh).material as TextureMaterial).alpha = .5;
+					material = (child as Mesh).material;
 					
-					
+					if ( material is TextureMaterial )
+					{
+						(material as TextureMaterial).alphaBlending = true;
+						(material as TextureMaterial).alpha = .5;
+					}
+					else if ( material is ColorMaterial )
+					{
+						(material as ColorMaterial).alphaBlending = true;
+						(material as ColorMaterial).alpha = .5;
+					}
 				}
-				_view.scene.addChild( child );
+				container.addChild(child);
+				
 			}
+			_view.scene.addChild( container );
+			
+			_cameraController.lookAtPosition = new Vector3D
+			(
+				(container.minX + container.maxX) * .5,
+				(container.minY + container.maxY) * .5,
+				(container.minZ + container.maxZ) * .5
+			);
+			
+			_minZoom = container.maxY * 3;
+			_maxZoom = container.maxY * 10;
+			
+			_cameraController.distance = _maxZoom;
+			_context.appView.stage.addEventListener(TransformGestureEvent.GESTURE_ZOOM, view_GESTURE_ZOOM_Handler);
+			//_view.addEventListener(TransformGestureEvent.GESTURE_PAN, view_GESTURE_ZOOM_Handler);
+			
 			_context.dispatchEvent( new ScreenEvent(ScreenEvent.HIDE_SCREEN, ScreenId.PROGRESS_BAR_SCREEN) );
 		}
 		
-		/**
-		 * Asset load complete event handler, correctly in 3ds parser.
-		 * @param	event - AssetEvent instance.
-		 * TODO need fix OBJParser
-		 */
-		//private function onAssetComplete(event:AssetEvent):void 
-		//{
-			//trace(event.type, event.asset.assetType);
-			//
-			//if (event.asset.assetType == AssetType.MESH) 
-			//{
-				////var mesh:Mesh = event.asset as Mesh;
-				////_view.scene.addChild( mesh )
-			//}
-			//else if (event.asset.assetType == AssetType.MATERIAL)//TODO not work in loader3d for OBJParser(.obj data format), set alpha to 50% for texture material when resource complete.
-			//{
-				//var asset:* = event.asset;
-				//trace(asset);
-			//}
-		//}
-		
-		[Inline]
-		private static function updateMaterial( mesh:Mesh ):void
+		private function view_GESTURE_ZOOM_Handler(e:TransformGestureEvent):void 
 		{
-			mesh.material.alphaPremultiplied = true;
-			var material:TextureMaterial = mesh.material && mesh.material is TextureMaterial?mesh.material as TextureMaterial:null;
-			if (material)
-			{
-				
-				material.alpha = .5;
-			}
-			else
-			{
-				//mesh.material.alphaPremultiplied
-				trace( mesh );
-			}
-			
+			_cameraController.distance = _minZoom + (_maxZoom - _minZoom) * (e.scaleX + e.scaleY) * .5;
 		}
-		
 		private function setupScene():void
 		{
 			//setup the camera for optimal shadow rendering
