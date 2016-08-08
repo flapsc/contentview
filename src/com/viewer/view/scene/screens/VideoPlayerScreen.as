@@ -18,6 +18,8 @@ package com.viewer.view.scene.screens
 	import feathers.media.PlayPauseToggleButton;
 	import feathers.media.SeekSlider;
 	import feathers.media.VideoPlayer;
+	import feathers.media.VolumeSlider;
+	import flash.media.SoundTransform;
 	import starling.display.BlendMode;
 	import starling.display.DisplayObject;
 	import starling.events.Event;
@@ -33,6 +35,7 @@ package com.viewer.view.scene.screens
 		private var _playPauseButton:PlayPauseToggleButton;
 		private var _seekSlider:SeekSlider;
 		private var _muteButton:MuteToggleButton;
+		private var _volumeSlider:VolumeSlider;
 		//private var _fullScreenButton:FullScreenToggleButton;
 		
 		public function VideoPlayerScreen() 
@@ -48,7 +51,7 @@ package com.viewer.view.scene.screens
 			//this.height = stage.stageHeight;
 			
 			this._videoPlayer = new VideoPlayer();
-			this._videoPlayer.autoSizeMode = AutoSizeMode.CONTENT;
+			this._videoPlayer.autoSizeMode = AutoSizeMode.STAGE;
 			this._videoPlayer.addEventListener(Event.READY, videoPlayer_readyHandler);
 			this._videoPlayer.addEventListener(MediaPlayerEventType.DISPLAY_STATE_CHANGE, videoPlayer_displayStateChangeHandler);
 			this._videoPlayer.addEventListener(FeathersEventType.ERROR, videoPlayer_errorHandler);
@@ -71,9 +74,14 @@ package com.viewer.view.scene.screens
 			this._seekSlider.layoutData = new HorizontalLayoutData(100);
 			this._controls.addChild(this._seekSlider);
 			
-			this._muteButton = new MuteToggleButton();
-			this._controls.addChild(this._muteButton);
+			_muteButton = new MuteToggleButton();
+			_controls.addChild(this._muteButton);			
+			
+			_volumeSlider = new VolumeSlider();
+			_controls.addChild( _volumeSlider );
+			
 
+			//VolumeSlider
 			//this._fullScreenButton = new FullScreenToggleButton();
 			//this._controls.addChild(this._fullScreenButton);
 			
