@@ -1,6 +1,7 @@
 package com.viewer.view.scene.screens 
 {
 	import com.viewer.model.StaticEmbedFonts;
+	import com.viewer.view.ext.ScrollTextExt;
 	import feathers.controls.Header;
 	import feathers.controls.LayoutGroup;
 	import feathers.controls.ScrollText;
@@ -32,10 +33,8 @@ package com.viewer.view.scene.screens
 			
 			super.initialize();
 			headerFactory = customHeaderFactory;
-			_scrolledText = new ScrollText();		
-			_scrolledText.layoutData = new AnchorLayoutData(0);
+			_scrolledText = new ScrollTextExt();		
 			_scrolledText.addEventListener(Event.ADDED_TO_STAGE, scrolledTextADDET_TO_STAGEHandler);
-
 			addChild(_scrolledText);
 		}
 		
@@ -48,10 +47,9 @@ package com.viewer.view.scene.screens
 			_scrolledText.textFormat.color = 0xFFFFFF;
 			_scrolledText.textFormat.align = TextFormatAlign.LEFT;
 			_scrolledText.embedFonts = true;
-			_scrolledText.viewPort.y = (_scrolledText.layoutData as AnchorLayoutData).top;
 			_scrolledText.text = _context.currentSelectedContentVO.content;
-			
 		}
+		
 		
 		override public function dispose():void 
 		{

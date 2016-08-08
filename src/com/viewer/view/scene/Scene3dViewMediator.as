@@ -104,15 +104,9 @@ package com.viewer.view.scene
 		
 		private function onLoaderResourceComplete(e:LoaderEvent):void 
 		{
-			trace("onLoaderResourceComplete");
-			
-			//var childrenLn:uint = _loader3D.numChildren;
 			var container:ObjectContainer3D = new ObjectContainer3D();
 			var child:ObjectContainer3D;
 			var material:MaterialBase;
-			//container.mouseChildren =
-			//container.mouseEnabled = true;
-			//for ( var i:uint = 0; i < childrenLn; i++ )
 			while(_loader3D.numChildren)
 			{
 				
@@ -123,20 +117,39 @@ package com.viewer.view.scene
 					
 					if ( material is TextureMaterial )
 					{
-						(material as TextureMaterial).alphaBlending = true;
 						(material as TextureMaterial).alpha = .5;
 					}
 					else if ( material is ColorMaterial )
 					{
-						(material as ColorMaterial).alphaBlending = true;
 						(material as ColorMaterial).alpha = .5;
 					}
 				}
-				//child.mouseEnabled =
-				//child.mouseChildren = true;
-				child.addEventListener(MouseEvent3D.MOUSE_DOWN, child3d_MOUSE3D_DOWN_Handler);
+				/**
+				 * TODO
+				 * add interactive event listeners an all scene objects, 
+				 * for handle and set target position of base hover controller
+				 * 
+				 * Simple code:
+				 * child.mouseEnabled =	child.mouseChildren = true;
+				 * 
+				 * child.addEventListener
+				 * (
+				 * 		MouseEvent3D.MOUSE_DOWN,
+				 * 		function( event:MouseEvent3D ):void
+				 * 		{
+				 * 			var targetContainer:ObjectContainer3D = event.target as ObjectContainer3D;
+				 * 			_cameraController.lookAtPosition = new Vector3D
+				 * 			(
+				 * 				(container.minX + container.maxX) * .5,
+				 * 				(container.minY + container.maxY) * .5,
+				 * 				(container.minZ + container.maxZ) * .5,
+				 * 			)
+				 * 		}
+				 * 
+				 * );
+				 * 
+				 */
 				container.addChild(child);
-				
 			}
 			_view.scene.addChild( container );
 			
@@ -152,21 +165,7 @@ package com.viewer.view.scene
 			
 			_cameraController.distance = _maxZoom;
 			_context.appView.stage.addEventListener(TransformGestureEvent.GESTURE_ZOOM, view_GESTURE_ZOOM_Handler);
-			//_view.addEventListener(TransformGestureEvent.GESTURE_PAN, view_GESTURE_ZOOM_Handler);
-			
 			_context.dispatchEvent( new ScreenEvent(ScreenEvent.HIDE_SCREEN, ScreenId.PROGRESS_BAR_SCREEN) );
-		}
-		
-		private function child3d_MOUSE3D_DOWN_Handler(e:MouseEvent3D):void 
-		{
-			//var containerTarget:ObjectContainer3D = e.currentTarget as ObjectContainer3D;
-			//_cameraController.lookAtPosition = new Vector3D
-			//(
-				//containerTarget.scenePosition.x+(containerTarget.minX + containerTarget.maxX) * .5,
-				//containerTarget.scenePosition.y+(containerTarget.minY + containerTarget.maxY) * .5,
-				//containerTarget.scenePosition.z+(containerTarget.minZ + containerTarget.maxZ) * .5
-			//);
-			//_cameraController.lookAtObject = e.currentTarget as ObjectContainer3D;
 		}
 		
 		private function view_GESTURE_ZOOM_Handler(e:TransformGestureEvent):void 
@@ -193,17 +192,9 @@ package com.viewer.view.scene
 			//setup controller to be used on the camera
 			_cameraController = new HoverController(_view.camera, null, 45, 20, 1000, 10);
 			
-			_stage.addEventListener(Event.DEACTIVATE, stage_DeactivateHandler);
 			_stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
 			_stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
 			_stage.addEventListener(Event.ENTER_FRAME, stage_EnterFrame_Handler);
-		
-		}
-		
-		
-		private function stage_DeactivateHandler(e:Event):void
-		{
-		
 		}
 		
 		/**

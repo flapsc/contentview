@@ -215,10 +215,9 @@ package com.viewer.services.view
 			stage_activateHandler();
 			_stage.addEventListener(Event.DEACTIVATE, stage_deactivateHandler, false, 0, true);
 			_stage.addEventListener(Event.RESIZE, stage_ResizeHandler);
+			_starling.start();
 			_isReady = true;
 			dispatchEvent( new ApplicationViewEvent(ApplicationViewEvent.APP_VIEW_READY) );
-			_starling.start();
-			//stage_ResizeHandler();
 		}
 		
 		/**
