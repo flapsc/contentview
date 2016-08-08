@@ -24,6 +24,7 @@ package com.viewer.services.view
 	import flash.ui.MultitouchInputMode;
 	import flash.utils.setTimeout;
 	import starling.core.Starling;
+	import starling.display.BlendMode;
 	/**
 	 * ...
 	 * @author Mihaylenko A.L.
@@ -166,7 +167,7 @@ package com.viewer.services.view
 			 {
 				_away3dView.render();
 			 }
-			 
+			 BlendMode.get(BlendMode.NORMAL).activate();
 			 // Render the Starling animation layer
 			 _starling.nextFrame();
 			 
@@ -204,6 +205,9 @@ package com.viewer.services.view
 			}
 			_view2D = _starling.root as FeathersDrivers;
 			Multitouch.inputMode = MultitouchInputMode.GESTURE;
+			//Starling.
+			//_starling.mu
+			//BlendMode.get(BlendMode.NORMAL).activate();
 			stage_activateHandler();
 			_stage.addEventListener(Event.DEACTIVATE, stage_deactivateHandler, false, 0, true);
 			_stage.addEventListener(Event.RESIZE, stage_ResizeHandler);
