@@ -171,7 +171,6 @@ package com.viewer.view.scene
 		
 		private function view_GESTURE_ZOOM_Handler(e:TransformGestureEvent):void 
 		{
-			//_currZoom += (1-e.scaleX + 1-e.scaleY) * .5;
 			_currZoomX += 1 - e.scaleX;
 			_currZoomY += 1 - e.scaleY;
 			
@@ -184,12 +183,7 @@ package com.viewer.view.scene
 			_currZoom = (_currZoomX + _currZoomY) * .5;
 			_currZoom = Math.min(_currZoom, 1);
 			_currZoom = Math.max(_currZoom, 0.01);
-			//trace(e.scaleX, e.scaleY);
-			trace(_currZoomX, _currZoomY);
-			//_context.appView
-			Starling.juggler.removeTweens(_cameraController);
-			Starling.juggler.tween(_cameraController, .2, {distance:_minZoom + (_maxZoom - _minZoom) * _currZoom, transition:Transitions.EASE_IN});
-			//_cameraController.distance = ;
+			_cameraController.distance = _minZoom + (_maxZoom - _minZoom) * _currZoom;
 		}
 		private function setupScene():void
 		{
