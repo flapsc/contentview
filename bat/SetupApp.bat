@@ -42,7 +42,7 @@ set DIST_PATH=dist
 set DIST_NAME=ContentViewer
 
 :: Debugging using a custom IP
-set DEBUG_IP=
+set DEBUG_IP=192.168.0.104
 
 :validation
 findstr /C:"<id>%APP_ID%</id>" "%APP_XML%" > NUL

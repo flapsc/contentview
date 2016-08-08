@@ -6,6 +6,7 @@ package com.viewer.view.scene
 	import away3d.entities.Mesh;
 	import away3d.events.AssetEvent;
 	import away3d.events.LoaderEvent;
+	import away3d.events.MouseEvent3D;
 	import away3d.library.AssetLibrary;
 	import away3d.library.assets.AssetType;
 	import away3d.loaders.Loader3D;
@@ -22,6 +23,8 @@ package com.viewer.view.scene
 	import flash.events.TransformGestureEvent;
 	import flash.geom.Vector3D;
 	import flash.net.URLRequest;
+	import starling.animation.Transitions;
+	import starling.core.Starling;
 	
 	/**
 	 * ...
@@ -44,6 +47,10 @@ package com.viewer.view.scene
 		private var _lastMouseY:Number;
 		private var _maxZoom:Number;
 		private var _minZoom:Number;
+		
+		private var _currZoom:Number = 1;
+		private var _currZoomX:Number = 1;
+		private var _currZoomY:Number = 1;
 		/**
 		 * Constructor.
 		 */
@@ -88,6 +95,8 @@ package com.viewer.view.scene
 			var container:ObjectContainer3D = new ObjectContainer3D();
 			var child:ObjectContainer3D;
 			var material:MaterialBase;
+			//container.mouseChildren =
+			//container.mouseEnabled = true;
 			//for ( var i:uint = 0; i < childrenLn; i++ )
 			while(_loader3D.numChildren)
 			{
@@ -108,6 +117,9 @@ package com.viewer.view.scene
 						(material as ColorMaterial).alpha = .5;
 					}
 				}
+				//child.mouseEnabled =
+				//child.mouseChildren = true;
+				child.addEventListener(MouseEvent3D.MOUSE_DOWN, child3d_MOUSE3D_DOWN_Handler);
 				container.addChild(child);
 				
 			}
@@ -120,8 +132,8 @@ package com.viewer.view.scene
 				(container.minZ + container.maxZ) * .5
 			);
 			
-			_minZoom = container.maxY * 3;
-			_maxZoom = container.maxY * 10;
+			_minZoom = container.maxY - container.minY;
+			_maxZoom = _minZoom * 12;
 			
 			_cameraController.distance = _maxZoom;
 			_context.appView.stage.addEventListener(TransformGestureEvent.GESTURE_ZOOM, view_GESTURE_ZOOM_Handler);
@@ -130,9 +142,39 @@ package com.viewer.view.scene
 			_context.dispatchEvent( new ScreenEvent(ScreenEvent.HIDE_SCREEN, ScreenId.PROGRESS_BAR_SCREEN) );
 		}
 		
+		private function child3d_MOUSE3D_DOWN_Handler(e:MouseEvent3D):void 
+		{
+			//var containerTarget:ObjectContainer3D = e.currentTarget as ObjectContainer3D;
+			//_cameraController.lookAtPosition = new Vector3D
+			//(
+				//containerTarget.scenePosition.x+(containerTarget.minX + containerTarget.maxX) * .5,
+				//containerTarget.scenePosition.y+(containerTarget.minY + containerTarget.maxY) * .5,
+				//containerTarget.scenePosition.z+(containerTarget.minZ + containerTarget.maxZ) * .5
+			//);
+			//_cameraController.lookAtObject = e.currentTarget as ObjectContainer3D;
+		}
+		
 		private function view_GESTURE_ZOOM_Handler(e:TransformGestureEvent):void 
 		{
-			_cameraController.distance = _minZoom + (_maxZoom - _minZoom) * (e.scaleX + e.scaleY) * .5;
+			//_currZoom += (1-e.scaleX + 1-e.scaleY) * .5;
+			_currZoomX += 1 - e.scaleX;
+			_currZoomY += 1 - e.scaleY;
+			
+			_currZoomX = Math.min(_currZoomX, 1);
+			_currZoomX = Math.max(_currZoomX, 0.01);
+			
+			_currZoomY = Math.min(_currZoomY, 1);
+			_currZoomY = Math.max(_currZoomY, 0.01);
+			
+			_currZoom = (_currZoomX + _currZoomY) * .5;
+			_currZoom = Math.min(_currZoom, 1);
+			_currZoom = Math.max(_currZoom, 0.01);
+			//trace(e.scaleX, e.scaleY);
+			trace(_currZoomX, _currZoomY);
+			//_context.appView
+			Starling.juggler.removeTweens(_cameraController);
+			Starling.juggler.tween(_cameraController, .2, {distance:_minZoom + (_maxZoom - _minZoom) * _currZoom, transition:Transitions.EASE_IN});
+			//_cameraController.distance = ;
 		}
 		private function setupScene():void
 		{
