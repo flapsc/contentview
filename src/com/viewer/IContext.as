@@ -1,6 +1,7 @@
 package com.viewer 
 {
 	import com.viewer.model.vo.IContentViewVO;
+	import com.viewer.model.vo.menu.IContentMenuItemVO;
 	import com.viewer.services.view.IApplicationView;
 	import com.viewer.view.scene.IBaseViewMediator;
 	import flash.display.Stage;
@@ -37,6 +38,9 @@ package com.viewer
 		 * Service of application view.
 		 */
 		function get appView():IApplicationView;
+		
+		function set currentSelectedContentVO(value:IContentMenuItemVO):void;
+		function get currentSelectedContentVO():IContentMenuItemVO;
 		
 		function get isReady():Boolean;
 	}

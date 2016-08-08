@@ -31,7 +31,7 @@ package com.viewer.view.scene.screens
 			_itemData = null;
 			super.dispose();
 		}
-		
+		public function get data():IContentMenuItemVO{ return _itemData; }
 		public function get contentType():String
 		{
 			return _itemData?_itemData.type:null;

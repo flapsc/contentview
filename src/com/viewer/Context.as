@@ -2,6 +2,7 @@ package com.viewer
 {
 	import com.viewer.model.vo.ContentViewVO;
 	import com.viewer.model.vo.IContentViewVO;
+	import com.viewer.model.vo.menu.IContentMenuItemVO;
 	import com.viewer.services.view.ApplicationView;
 	import com.viewer.services.view.ApplicationViewEvent;
 	import com.viewer.services.view.IApplicationView;
@@ -87,10 +88,16 @@ package com.viewer
 		public final function get appView():IApplicationView{ return _appView; }
 		
 		
-		final public function get isReady():Boolean
+		public final function get isReady():Boolean
 		{
 			return _dataConfig && _appView && _appView.isReady;
 		}
+		
+		private var _currentSelectedContentVO:IContentMenuItemVO;
+		public final function set currentSelectedContentVO(value:IContentMenuItemVO):void{ _currentSelectedContentVO = value; }
+		public final function get currentSelectedContentVO():IContentMenuItemVO{ return _currentSelectedContentVO; }
+		
+		
 	//////////////////////// CONFIG LOADER//////////////////////////////
 	//////////////////////// TODO NEED IMPLEMENT TO LOAD CONFIG SERVICE/
 		private function addConfigLoaderListeners():void

@@ -23,9 +23,13 @@ package com.viewer.view.scene.screens
 			super.initialize();
 			layout = new AnchorLayout();
 			clipContent = false;
-			if (_context.dataConfigVO.screenTitle != null)
+			if (_context.currentSelectedContentVO)
 			{
-				this.title = _context.dataConfigVO.screenTitle;
+				title = _context.currentSelectedContentVO.name;
+			}
+			else if ( _context.dataConfigVO.screenTitle )
+			{
+				title = _context.dataConfigVO.screenTitle;
 				_context.dataConfigVO.screenTitle = null;
 			}
 		}

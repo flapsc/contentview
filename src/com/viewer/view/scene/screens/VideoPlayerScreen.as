@@ -47,9 +47,6 @@ package com.viewer.view.scene.screens
 		{
 			super.initialize();
 			
-			//this.width = stage.stageWidth;
-			//this.height = stage.stageHeight;
-			
 			this._videoPlayer = new VideoPlayer();
 			this._videoPlayer.autoSizeMode = AutoSizeMode.STAGE;
 			this._videoPlayer.addEventListener(Event.READY, videoPlayer_readyHandler);
@@ -80,15 +77,10 @@ package com.viewer.view.scene.screens
 			_volumeSlider = new VolumeSlider();
 			_controls.addChild( _volumeSlider );
 			
-
-			//VolumeSlider
-			//this._fullScreenButton = new FullScreenToggleButton();
-			//this._controls.addChild(this._fullScreenButton);
-			
 			var controlsLayoutData:AnchorLayoutData = new AnchorLayoutData();
 			controlsLayoutData.left = 0;
 			controlsLayoutData.right = 0;
-			controlsLayoutData.bottom = 5;			
+			controlsLayoutData.bottom = _controls.height;			
 			
 			this._controls.layoutData = controlsLayoutData;
 
@@ -100,14 +92,12 @@ package com.viewer.view.scene.screens
 			viewLayoutData.bottomAnchorDisplayObject = this._controls;
 			this._view.layoutData = viewLayoutData;
 			
-			var videoURL:String = getVideoContentURL();
-			//trace(_videoPlayer.blendMode)
-			_videoPlayer.videoSource = videoURL;
 			_videoPlayer.layoutData = viewLayoutData;
 			scrollBarDisplayMode = SCROLL_POLICY_OFF;
 			addChild(_videoPlayer);
 			
-			//_videoPlayer.toggleFullScreen();
+			_videoPlayer.videoSource = _context.currentSelectedContentVO.content;
+			
 			this.headerFactory = this.customHeaderFactory;
 		}
 		
@@ -136,17 +126,6 @@ package com.viewer.view.scene.screens
 		{
 			this.dispatchEventWith(Event.COMPLETE);
 		}		
-		
-		private function getVideoContentURL():String
-		{
-			const items:Vector.<IContentMenuItemVO> = _context.dataConfigVO.menuItems;
-			const ln:uint = items.length;
-			for ( var i:uint = 0; i < ln; i++ )
-				if ( items[i].type == ContentTypes.VIDEO_CONTENT_TYPE )
-					return items[i].content;
-					
-			return null;
-		}
 		
 		protected function videoPlayer_readyHandler(event:Event):void
 		{

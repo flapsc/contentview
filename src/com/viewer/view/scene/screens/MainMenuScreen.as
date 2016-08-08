@@ -77,7 +77,7 @@ package com.viewer.view.scene.screens
 		
 		private function button_triggeredHandler(event:Event):void 
 		{
-			const button:MenuButton = MenuButton(event.currentTarget);
+			var button:MenuButton = MenuButton(event.currentTarget);
 			var screenEvent:ScreenEvent;
 			switch( button.contentType )
 			{
@@ -88,6 +88,7 @@ package com.viewer.view.scene.screens
 			
 			if ( screenEvent )
 			{
+				_context.currentSelectedContentVO = button.data;
 				_context.dispatchEvent(screenEvent);
 			}
 		}
