@@ -22,6 +22,7 @@ package com.viewer.view.scene.screens
 		{
 			super.initialize();
 			layout = new AnchorLayout();
+			clipContent = false;
 			if (_context.dataConfigVO.screenTitle != null)
 			{
 				this.title = _context.dataConfigVO.screenTitle;

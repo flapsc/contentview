@@ -1,5 +1,6 @@
 package com.viewer.view.scene.screens 
 {
+	import com.viewer.model.ContentTypes;
 	import com.viewer.model.vo.menu.IContentMenuItemVO;
 	import feathers.controls.Button;
 	import feathers.controls.ButtonGroup;
@@ -30,19 +31,18 @@ package com.viewer.view.scene.screens
 		{
 			super.initialize();
 			
-			const menuItemsDPL:ListCollection = new ListCollection();
-			const menuItemsCongigData:Vector.<IContentMenuItemVO> = _context.dataConfigVO.menuItems;
-			const menuItemsLn:uint = menuItemsCongigData.length;
-			
-			var menuItemData:IContentMenuItemVO;
-			
-			for ( var i:uint = 0; i < menuItemsLn; i++ )
-			{
-				menuItemData = menuItemsCongigData[i];
-				menuItemsDPL.addItem({ label:menuItemData.name,  triggered: button_triggeredHandler});
-			}
 			_buttonGroup = new ButtonGroup();
-			_buttonGroup.dataProvider = menuItemsDPL;
+			_buttonGroup.buttonFactory = function():Button
+			{
+				return new MenuButton( );
+			}
+			_buttonGroup.buttonInitializer = function( button:MenuButton, data:IContentMenuItemVO ):void
+			{
+				button.data = data as IContentMenuItemVO;
+				button.addEventListener(Event.TRIGGERED, button_triggeredHandler);
+			};
+			
+			_buttonGroup.dataProvider = new ListCollection(_context.dataConfigVO.menuItems);
 			
 			var buttonGroupLayoutData:AnchorLayoutData = new AnchorLayoutData();
 			buttonGroupLayoutData.horizontalCenter = 0;
@@ -77,14 +77,19 @@ package com.viewer.view.scene.screens
 		
 		private function button_triggeredHandler(event:Event):void 
 		{
-			const button:Button = Button(event.currentTarget);
-			switch( button.label )
+			const button:MenuButton = MenuButton(event.currentTarget);
+			var screenEvent:ScreenEvent;
+			switch( button.contentType )
 			{
-				case "Visualisation":
-					_context.dispatchEvent( new ScreenEvent( ScreenEvent.SHOW_SCREEN, ScreenId.VIDEO_PLAYER_SCREEN, button.label ) );
+				case ContentTypes.VIDEO_CONTENT_TYPE:
+					screenEvent = new ScreenEvent( ScreenEvent.SHOW_SCREEN, ScreenId.VIDEO_PLAYER_SCREEN, button.label );
 					break;
 			}
-			trace(event);
+			
+			if ( screenEvent )
+			{
+				_context.dispatchEvent(screenEvent);
+			}
 		}
 		
 	}

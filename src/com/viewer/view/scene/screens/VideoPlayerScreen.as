@@ -18,6 +18,7 @@ package com.viewer.view.scene.screens
 	import feathers.media.PlayPauseToggleButton;
 	import feathers.media.SeekSlider;
 	import feathers.media.VideoPlayer;
+	import starling.display.BlendMode;
 	import starling.display.DisplayObject;
 	import starling.events.Event;
 	/**
@@ -47,22 +48,24 @@ package com.viewer.view.scene.screens
 			//this.height = stage.stageHeight;
 			
 			this._videoPlayer = new VideoPlayer();
-			this._videoPlayer.autoSizeMode = AutoSizeMode.STAGE;
+			this._videoPlayer.autoSizeMode = AutoSizeMode.CONTENT;
 			this._videoPlayer.addEventListener(Event.READY, videoPlayer_readyHandler);
 			this._videoPlayer.addEventListener(MediaPlayerEventType.DISPLAY_STATE_CHANGE, videoPlayer_displayStateChangeHandler);
 			this._videoPlayer.addEventListener(FeathersEventType.ERROR, videoPlayer_errorHandler);
-			this.addChild(this._videoPlayer);
+			
 			
 			this._view = new ImageLoader();
-			this._videoPlayer.addChild(this._view);
+			_view.maintainAspectRatio = true;
+			
+			_videoPlayer.addChild(this._view);
 			
 			this._controls = new LayoutGroup();
 			this._controls.touchable = false;
 			this._controls.styleNameList.add(LayoutGroup.ALTERNATE_STYLE_NAME_TOOLBAR);
 			this._videoPlayer.addChild(this._controls);
 			
-			//this._playPauseButton = new PlayPauseToggleButton();
-			//this._controls.addChild(this._playPauseButton);
+			this._playPauseButton = new PlayPauseToggleButton();
+			this._controls.addChild(this._playPauseButton);
 			
 			this._seekSlider = new SeekSlider();
 			this._seekSlider.layoutData = new HorizontalLayoutData(100);
@@ -77,24 +80,25 @@ package com.viewer.view.scene.screens
 			var controlsLayoutData:AnchorLayoutData = new AnchorLayoutData();
 			controlsLayoutData.left = 0;
 			controlsLayoutData.right = 0;
-			controlsLayoutData.bottom = 0;			
+			controlsLayoutData.bottom = 5;			
 			
 			this._controls.layoutData = controlsLayoutData;
 
 			var viewLayoutData:AnchorLayoutData = new AnchorLayoutData();
-			viewLayoutData.bottom - 0;
+			viewLayoutData.top = 0;
 			viewLayoutData.left = 0;
 			viewLayoutData.right = 0;
 			
-			//viewLayoutData.horizontalCenter = 0;
-			//viewLayoutData.verticalCenter = 0;
+			
 			viewLayoutData.bottomAnchorDisplayObject = this._controls;
 			this._view.layoutData = viewLayoutData;
 			
 			var videoURL:String = getVideoContentURL();
-			
+			//trace(_videoPlayer.blendMode)
 			_videoPlayer.videoSource = videoURL;
-			//_videoPlayer.layoutData = new AnchorLayoutData(0, 0, 0, 0);
+			_videoPlayer.layoutData = viewLayoutData;
+			addChild(_videoPlayer);
+			
 			//_videoPlayer.toggleFullScreen();
 			this.headerFactory = this.customHeaderFactory;
 		}
@@ -138,8 +142,8 @@ package com.viewer.view.scene.screens
 		
 		protected function videoPlayer_readyHandler(event:Event):void
 		{
-			this._view.source = this._videoPlayer.texture;
-			this._controls.touchable = true;
+			_view.source = _videoPlayer.texture;
+			_controls.touchable = true;
 		}
 		
 		protected function videoPlayer_displayStateChangeHandler(event:Event):void
