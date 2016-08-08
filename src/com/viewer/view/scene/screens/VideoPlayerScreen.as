@@ -142,6 +142,7 @@ package com.viewer.view.scene.screens
 		
 		protected function videoPlayer_readyHandler(event:Event):void
 		{
+			this._videoPlayer.removeEventListener(Event.READY, videoPlayer_readyHandler);
 			_view.source = _videoPlayer.texture;
 			_controls.touchable = true;
 		}
@@ -152,7 +153,21 @@ package com.viewer.view.scene.screens
 			 * TODO
 			 */
 		}		
-		
+		override public function dispose():void 
+		{
+			
+			_controls.removeFromParent(true);
+			
+			_view.removeFromParent(true);
+			_view = null;
+			
+			_videoPlayer.removeFromParent(true)
+			_videoPlayer = null;
+			
+			
+			super.dispose();
+			
+		}
 		protected function videoPlayer_errorHandler(event:Event):void
 		{
 			Alert.show("Cannot play selected video.",

@@ -123,7 +123,7 @@ package com.viewer.services.view
 		
 		private function initFeathers():void 
 		{
-			Starling.multitouchEnabled = true;
+			Starling.multitouchEnabled = false;
 			_starling = new Starling(FeathersDrivers, _stage, _stage3DProxy.viewPort, _stage3DProxy.stage3D, Context3DRenderMode.AUTO, Context3DProfile.BASELINE);
 			_starling.antiAliasing = 8;
 			_starling.supportHighResolutions = true;
@@ -151,8 +151,7 @@ package com.viewer.services.view
 			_stage3DProxy.height = _away3dView.height = _stage.fullScreenHeight;
 			if (_awayStats)
 			{
-				_awayStats.x = _stage.fullScreenWidth - _awayStats.width;
-				_awayStats.y = _stage.fullScreenHeight - _awayStats.height;
+				_awayStats.y = _awayStats.height;
 			}
 			_starling.viewPort = new Rectangle(0, 0, _stage3DProxy.width, _stage3DProxy.height);
 		}
@@ -167,6 +166,10 @@ package com.viewer.services.view
 			 {
 				_away3dView.render();
 			 }
+			 /**
+			  * Hard fix,
+			  * starling 2.0 + away3d( http://forum.starling-framework.org/topic/starling-v2-in-combination-with-away3d )
+			  */
 			 BlendMode.get(BlendMode.NORMAL).activate();
 			 // Render the Starling animation layer
 			 _starling.nextFrame();
@@ -237,7 +240,6 @@ package com.viewer.services.view
 				
 				_awayStats = new AwayStats( _away3dView);
 				_awayStats.x = _stage.fullScreenWidth - _awayStats.width;
-				_awayStats.y = _stage.fullScreenHeight - _awayStats.height;
 				_stage.addChild( _awayStats );
 			//}
 			

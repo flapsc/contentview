@@ -36,7 +36,7 @@
     <depthAndStencil>true</depthAndStencil>
     <!-- required for 3D -->
     <systemChrome>standard</systemChrome>
-    <resizable>true</resizable>
+    <resizable>false</resizable>
     <requestedDisplayResolution>high</requestedDisplayResolution>
   </initialWindow>
   <supportedLanguages>en</supportedLanguages>

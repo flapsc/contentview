@@ -46,7 +46,7 @@
     <path-element>C:\work\crysberry\contentview\src\com\viewer\ContentViewDocumentClass.as</path-element>
   </file-specs>
   <default-background-color>#000000</default-background-color>
-  <default-frame-rate>30</default-frame-rate>
+  <default-frame-rate>60</default-frame-rate>
   <default-size>
     <width>480</width>
     <height>762</height>
