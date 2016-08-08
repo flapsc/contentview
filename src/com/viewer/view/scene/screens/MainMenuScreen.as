@@ -42,7 +42,7 @@ package com.viewer.view.scene.screens
 				button.addEventListener(Event.TRIGGERED, button_triggeredHandler);
 			};
 			
-			_buttonGroup.dataProvider = new ListCollection(_context.dataConfigVO.menuItems);
+			_buttonGroup.dataProvider = new ListCollection(_context.dataConfigVO.menuItems.concat());
 			
 			var buttonGroupLayoutData:AnchorLayoutData = new AnchorLayoutData();
 			buttonGroupLayoutData.horizontalCenter = 0;
@@ -53,28 +53,6 @@ package com.viewer.view.scene.screens
 			addChild( _buttonGroup );
 			
 		}
-		
-		private function customHeaderFactory():Header
-		{
-			var header:Header = new Header();
-			//this screen doesn't use a back button on tablets because the main
-			//app's uses a split layout
-			var backButton:Button = new Button();
-			backButton.styleNameList.add(Button.ALTERNATE_STYLE_NAME_BACK_BUTTON);
-			backButton.label = "Back";
-			backButton.addEventListener(Event.TRIGGERED, backButton_triggeredHandler);
-			header.leftItems = new <DisplayObject>
-			[
-				backButton
-			];
-			return header;
-		}		
-		
-		private function backButton_triggeredHandler(event:Event):void
-		{
-			_context.dispatchEvent( new ScreenEvent( ScreenEvent.HIDE_SCREEN, ScreenId.MAIN_MENU_SCREEN ) );
-		}		
-		
 		private function button_triggeredHandler(event:Event):void 
 		{
 			var button:MenuButton = MenuButton(event.currentTarget);
@@ -94,8 +72,18 @@ package com.viewer.view.scene.screens
 				_context.currentSelectedContentVO = button.data;
 				_context.dispatchEvent(screenEvent);
 			}
+		}		
+		internal final override function backButton_triggeredHandler(event:Event):void
+		{
+			_context.dispatchEvent( new ScreenEvent( ScreenEvent.HIDE_SCREEN, ScreenId.MAIN_MENU_SCREEN ) );
 		}
-		
+		override public function dispose():void 
+		{
+			_buttonGroup.dataProvider.removeAll();
+			_buttonGroup.removeFromParent( true );
+			header.removeFromParent( true );
+			
+			super.dispose();
+		}
 	}
-
 }

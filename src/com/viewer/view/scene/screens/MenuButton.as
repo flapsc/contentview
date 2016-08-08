@@ -29,6 +29,7 @@ package com.viewer.view.scene.screens
 		override public function dispose():void 
 		{
 			_itemData = null;
+			removeEventListeners();
 			super.dispose();
 		}
 		public function get data():IContentMenuItemVO{ return _itemData; }
