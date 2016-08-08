@@ -85,7 +85,6 @@ package com.viewer.view.scene.screens
 			this._controls.layoutData = controlsLayoutData;
 
 			var viewLayoutData:AnchorLayoutData = new AnchorLayoutData();
-			viewLayoutData.top = 0;
 			viewLayoutData.left = 0;
 			viewLayoutData.right = 0;
 			
@@ -97,6 +96,7 @@ package com.viewer.view.scene.screens
 			//trace(_videoPlayer.blendMode)
 			_videoPlayer.videoSource = videoURL;
 			_videoPlayer.layoutData = viewLayoutData;
+			scrollBarDisplayMode = SCROLL_POLICY_OFF;
 			addChild(_videoPlayer);
 			
 			//_videoPlayer.toggleFullScreen();
