@@ -12,7 +12,7 @@ package com.viewer.model
 		static public const PDF_CONTENT_TYPE	:String = "pdf";
 		static public const DESCRIPTION_TYPE	:String = "description";
 		
-		static private const ENABLED_TYPES:Vector.<String> = Vector.<String>([VIDEO_CONTENT_TYPE])
+		static private const ENABLED_TYPES:Vector.<String> = Vector.<String>([VIDEO_CONTENT_TYPE, IMAGE_CONTENT_TYPE]);
 		
 		static public function isContentEnabled( type:String ):Boolean
 		{

@@ -82,7 +82,10 @@ package com.viewer.view.scene.screens
 			switch( button.contentType )
 			{
 				case ContentTypes.VIDEO_CONTENT_TYPE:
-					screenEvent = new ScreenEvent( ScreenEvent.SHOW_SCREEN, ScreenId.VIDEO_PLAYER_SCREEN, button.label );
+					screenEvent = new ScreenEvent( ScreenEvent.SHOW_SCREEN, ScreenId.VIDEO_PLAYER_SCREEN );
+					break;
+				case ContentTypes.IMAGE_CONTENT_TYPE:
+					screenEvent = new ScreenEvent( ScreenEvent.SHOW_SCREEN, ScreenId.IMAGE_VIEW_SCREEN );
 					break;
 			}
 			

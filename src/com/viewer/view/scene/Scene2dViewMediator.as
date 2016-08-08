@@ -1,6 +1,7 @@
 package com.viewer.view.scene 
 {
 	import com.viewer.IContext;
+	import com.viewer.view.scene.screens.ImageViewPanelScreen;
 	import com.viewer.view.scene.screens.MainMenuScreen;
 	import com.viewer.view.scene.screens.ProgressBarScreen;
 	import com.viewer.view.scene.screens.ScreenEvent;
@@ -143,7 +144,14 @@ package com.viewer.view.scene
 			// Video player screen
 			var videoPlayerItem:StackScreenNavigatorItem = new StackScreenNavigatorItem(VideoPlayerScreen, null, null, {context:_context});
 			videoPlayerItem.addPopEvent( Event.COMPLETE );
-			_navigator.addScreen(ScreenId.VIDEO_PLAYER_SCREEN, videoPlayerItem);					
+			_navigator.addScreen(ScreenId.VIDEO_PLAYER_SCREEN, videoPlayerItem);
+
+			
+			var imageViewItem:StackScreenNavigatorItem = new StackScreenNavigatorItem(ImageViewPanelScreen, null, null, {context:_context});
+			imageViewItem.addPopEvent( Event.COMPLETE );
+			_navigator.addScreen(ScreenId.IMAGE_VIEW_SCREEN, imageViewItem);			
+			
+			ImageViewPanelScreen
 			
 			
 		}

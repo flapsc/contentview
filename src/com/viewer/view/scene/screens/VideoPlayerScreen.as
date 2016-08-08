@@ -19,8 +19,6 @@ package com.viewer.view.scene.screens
 	import feathers.media.SeekSlider;
 	import feathers.media.VideoPlayer;
 	import feathers.media.VolumeSlider;
-	import flash.media.SoundTransform;
-	import starling.display.BlendMode;
 	import starling.display.DisplayObject;
 	import starling.events.Event;
 	/**
@@ -53,7 +51,6 @@ package com.viewer.view.scene.screens
 			this._videoPlayer.addEventListener(MediaPlayerEventType.DISPLAY_STATE_CHANGE, videoPlayer_displayStateChangeHandler);
 			this._videoPlayer.addEventListener(FeathersEventType.ERROR, videoPlayer_errorHandler);
 			
-			
 			this._view = new ImageLoader();
 			_view.maintainAspectRatio = true;
 			
@@ -80,7 +77,7 @@ package com.viewer.view.scene.screens
 			var controlsLayoutData:AnchorLayoutData = new AnchorLayoutData();
 			controlsLayoutData.left = 0;
 			controlsLayoutData.right = 0;
-			controlsLayoutData.bottom = _controls.height;			
+			controlsLayoutData.bottom = 10;
 			
 			this._controls.layoutData = controlsLayoutData;
 
