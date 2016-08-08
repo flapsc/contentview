@@ -53,10 +53,10 @@
   </includeLibraries>
   <!-- SWC Libraries -->
   <libraryPaths>
-    <element path="libs\away3d-core-fp11_4_1_6.swc" />
     <element path="libs\starling.swc" />
     <element path="libs\MetalWorksMobileTheme.swc" />
     <element path="libs\feathers_3_0_3.swc" />
+    <element path="libs\Away3d-core-fp11-4.1.6.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>

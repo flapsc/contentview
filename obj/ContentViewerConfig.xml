@@ -36,10 +36,10 @@
       <path-element>C:\Program Files (x86)\FlashDevelop\Library\AS3\classes</path-element>
     </source-path>
     <library-path append="true">
-      <path-element>C:\work\crysberry\contentview\libs\away3d-core-fp11_4_1_6.swc</path-element>
       <path-element>C:\work\crysberry\contentview\libs\starling.swc</path-element>
       <path-element>C:\work\crysberry\contentview\libs\MetalWorksMobileTheme.swc</path-element>
       <path-element>C:\work\crysberry\contentview\libs\feathers_3_0_3.swc</path-element>
+      <path-element>C:\work\crysberry\contentview\libs\Away3d-core-fp11-4.1.6.swc</path-element>
     </library-path>
   </compiler>
   <file-specs>

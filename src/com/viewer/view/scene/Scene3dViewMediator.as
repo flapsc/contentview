@@ -16,10 +16,12 @@ package com.viewer.view.scene
 	import away3d.materials.TextureMaterial;
 	import com.viewer.view.scene.screens.ScreenEvent;
 	import com.viewer.view.scene.screens.ScreenId;
+	import flash.display.LoaderInfo;
 	import flash.display.Stage;
 	import flash.events.Event;
 	import flash.events.GestureEvent;
 	import flash.events.MouseEvent;
+	import flash.events.ProgressEvent;
 	import flash.events.TransformGestureEvent;
 	import flash.geom.Vector3D;
 	import flash.net.URLRequest;
@@ -73,7 +75,7 @@ package com.viewer.view.scene
 		private var _loader3D:Loader3D
 		private function loadApp3dModel():void
 		{
-			_context.dispatchEvent( new ScreenEvent(ScreenEvent.SHOW_SCREEN, ScreenId.PROGRESS_BAR_SCREEN, "Loading 3d model, please wait...") );
+			_context.dispatchEvent( new ScreenEvent(ScreenEvent.SHOW_SCREEN, ScreenId.PROGRESS_BAR_SCREEN, _context.dataConfigVO.model3DVO.url) );
 			/**
 			 * TODO
 			 * need create cash content bytes service,
@@ -84,7 +86,20 @@ package com.viewer.view.scene
 			_loader3D = new Loader3D();
 			//_loader3D.addEventListener(AssetEvent.ASSET_COMPLETE, onAssetComplete);
 			_loader3D.addEventListener(LoaderEvent.RESOURCE_COMPLETE, onLoaderResourceComplete);
+			_loader3D.addEventListener(LoaderEvent.DEPENDENCY_COMPLETE, onLoaderResourceDEPENDENCYComplete);
+			_loader3D.addEventListener(ProgressEvent.PROGRESS, onLoaderResourceProgress);
 			_loader3D.load(new URLRequest(_context.dataConfigVO.model3DVO.url), null, null, new OBJParser());
+		}
+		
+		private function onLoaderResourceDEPENDENCYComplete(e:LoaderEvent):void 
+		{
+			trace(e.url);
+		}
+		
+		private function onLoaderResourceProgress(e:LoaderEvent):void 
+		{
+			_context.dispatchEvent(e.clone());
+			//trace( e.url, e.message);
 		}
 		
 		private function onLoaderResourceComplete(e:LoaderEvent):void 
