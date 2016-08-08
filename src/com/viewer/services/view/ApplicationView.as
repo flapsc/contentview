@@ -149,7 +149,7 @@ package com.viewer.services.view
 			
 			_stage3DProxy.width = _away3dView.width = _stage.fullScreenWidth;
 			_stage3DProxy.height = _away3dView.height = _stage.fullScreenHeight;
-			if (_awayStats)
+			(CONFIG::debug)
 			{
 				_awayStats.y = _awayStats.height;
 			}
@@ -170,6 +170,7 @@ package com.viewer.services.view
 			  * Hard fix,
 			  * starling 2.0 + away3d( http://forum.starling-framework.org/topic/starling-v2-in-combination-with-away3d )
 			  */
+			 
 			 BlendMode.get(BlendMode.NORMAL).activate();
 			 // Render the Starling animation layer
 			 _starling.nextFrame();
@@ -235,13 +236,13 @@ package com.viewer.services.view
 			_stage.addChild(_away3dView);
 			
 			
-			//if (Capabilities.isDebugger)
-			//{
+			CONFIG::debug
+			{
 				
 				_awayStats = new AwayStats( _away3dView);
 				_awayStats.x = _stage.fullScreenWidth - _awayStats.width;
 				_stage.addChild( _awayStats );
-			//}
+			}
 			
 		}
 	}

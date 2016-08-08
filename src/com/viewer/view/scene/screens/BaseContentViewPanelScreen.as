@@ -34,7 +34,6 @@ package com.viewer.view.scene.screens
 			else if ( _context.dataConfigVO.screenTitle )
 			{
 				title = _context.dataConfigVO.screenTitle;
-				_context.dataConfigVO.screenTitle = null;
 			}
 		}
 		
@@ -59,6 +58,15 @@ package com.viewer.view.scene.screens
 		}		
 		
 		public final function set context( value:IContext ):void{ _context = value; }
+		
+		override public function dispose():void 
+		{
+			if ( header )
+			{
+				header.removeFromParent(true);
+			}
+			super.dispose();
+		}
 	}
 
 }

@@ -6,6 +6,7 @@ package com.viewer.view.scene
 	import com.viewer.view.scene.screens.ProgressBarScreen;
 	import com.viewer.view.scene.screens.ScreenEvent;
 	import com.viewer.view.scene.screens.ScreenId;
+	import com.viewer.view.scene.screens.TextViewScreen;
 	import com.viewer.view.scene.screens.VideoPlayerScreen;
 	import feathers.controls.Button;
 	import feathers.controls.LayoutGroup;
@@ -146,13 +147,15 @@ package com.viewer.view.scene
 			videoPlayerItem.addPopEvent( Event.COMPLETE );
 			_navigator.addScreen(ScreenId.VIDEO_PLAYER_SCREEN, videoPlayerItem);
 
-			
+			//Image view screen
 			var imageViewItem:StackScreenNavigatorItem = new StackScreenNavigatorItem(ImageViewPanelScreen, null, null, {context:_context});
 			imageViewItem.addPopEvent( Event.COMPLETE );
-			_navigator.addScreen(ScreenId.IMAGE_VIEW_SCREEN, imageViewItem);			
+			_navigator.addScreen(ScreenId.IMAGE_VIEW_SCREEN, imageViewItem);
 			
-			ImageViewPanelScreen
-			
+			//ScrolledText view screen
+			var textViewItem:StackScreenNavigatorItem = new StackScreenNavigatorItem(TextViewScreen, null, null, {context:_context});
+			textViewItem.addPopEvent( Event.COMPLETE );
+			_navigator.addScreen(ScreenId.TEXT_VIEW_SCREEN, textViewItem);			
 			
 		}
 		

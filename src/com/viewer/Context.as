@@ -1,5 +1,6 @@
 package com.viewer 
 {
+	import com.viewer.model.StaticEmbedFonts;
 	import com.viewer.model.vo.ContentViewVO;
 	import com.viewer.model.vo.IContentViewVO;
 	import com.viewer.model.vo.menu.IContentMenuItemVO;
@@ -133,7 +134,10 @@ package com.viewer
 		private function checkReady():void
 		{
 			if ( isReady )
+			{
+				StaticEmbedFonts.registerFonts();
 				dispatchEvent( new ApplicationEvent(ApplicationEvent.APPLICATION_CONTEXT_READY) );
+			}
 		}
 	
 	

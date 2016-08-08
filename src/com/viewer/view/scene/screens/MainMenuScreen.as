@@ -30,7 +30,7 @@ package com.viewer.view.scene.screens
 		override protected function initialize():void 
 		{
 			super.initialize();
-			
+			title = "Main menu";
 			_buttonGroup = new ButtonGroup();
 			_buttonGroup.buttonFactory = function():Button
 			{
@@ -64,6 +64,10 @@ package com.viewer.view.scene.screens
 					break;
 				case ContentTypes.IMAGE_CONTENT_TYPE:
 					screenEvent = new ScreenEvent( ScreenEvent.SHOW_SCREEN, ScreenId.IMAGE_VIEW_SCREEN );
+					break;
+					
+				case ContentTypes.DESCRIPTION_TYPE:
+					screenEvent = new ScreenEvent( ScreenEvent.SHOW_SCREEN, ScreenId.TEXT_VIEW_SCREEN );
 					break;
 			}
 			
